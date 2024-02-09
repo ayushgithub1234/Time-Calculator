@@ -1,0 +1,101 @@
+<html>
+	<head>
+		<style>
+			body{
+				background:#8080806b;
+			}
+			.container{
+				display:flex;
+				justify-content:center;
+				align-items:center;
+				flex-direction:column;
+			}
+			.heading > h1{
+				font-size:50px;
+			}
+			.sub-container{
+				padding:20px;
+				width:20%;
+			}
+			.input{
+				margin:20px;
+			}
+			input{
+				width:100%;
+				border:0px;
+				border-radius:50px;
+				height:30px;
+				padding:5px;
+			}
+			.input > span{
+				display:block;
+				margin-bottom:20px;
+				font-size:20px;
+				font-weight:bold;
+				letter-spacing:2px;
+			}
+			input[type="submit"]{
+				font-size:20px;
+				width:50%;
+				cursor:pointer;
+			}
+			input[type="submit"]:hover{
+				background-color:#0a00001c;
+			}
+			#print{
+				text-align:center;
+				color:red;
+				font-size:25px;
+				letter-spacing:2px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<div class="heading">
+				<h1>Time Calculate</h1>
+			</div>
+			<div class="sub-container">
+				<div class="input">
+					<span>Kis Mai Se</span><input type="time" id="start">
+				</div>
+				<div class="input">
+					<span>Kis ko</span> <input type="time" id="end">
+				</div>
+				<div class="input">
+					<span>Lunch Time</span><input type="number" id="lunch" style="padding-left:20px;">
+				</div>
+				<div class="input" align="center">
+					<input type="submit" onclick="submit()">
+				</div>
+			</div>
+			<p id="print">
+				
+			</p>
+		</div>
+		
+		<script>
+			function submit(){
+				var startTime = document.getElementById("start").value;
+				var endTime = document.getElementById("end").value;
+				var lunch = document.getElementById("lunch").value;
+				
+				startTime = new Date("1970-01-01T" + startTime + "Z");
+				endTime = new Date("1970-01-01T" + endTime + "Z");
+				
+				var timeDifference = endTime - startTime;
+				
+				var minutesDifference = Math.abs(Math.floor(timeDifference / (1000 * 60)));
+
+				var adjustedMinutes = minutesDifference - lunch;
+
+				var adjustedHours = Math.floor(adjustedMinutes / 60);
+				var adjustedRemainingMinutes = adjustedMinutes % 60;
+				
+				var output = "Total time spent in the office (" + adjustedHours + " hours and " + adjustedRemainingMinutes + " minutes)";
+				
+				document.getElementById("print").innerHTML = output;
+			}
+		</script>
+	</body>
+</html>
