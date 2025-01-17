@@ -48,52 +48,75 @@
 				font-size:25px;
 				letter-spacing:2px;
 			}
+			#login-container {
+				display: none;
+				justify-content: center;
+				align-items: center;
+				height: 100vh;
+			}
+			#login-container.active {
+				display: flex;
+			}
 		</style>
 	</head>
 	<body>
-		<div class="container">
-			<div class="heading">
-				<h1> Office Time Calculate</h1>
+		<div id="login-container" class="active">
+			<div class="container">
+				<h1>Login</h1>
+				<input type="text" id="username" placeholder="Enter Username">
+				<input type="password" id="password" placeholder="Enter Password">
+				<input type="submit" value="Login" onclick="login()">
 			</div>
-			<div class="sub-container">
-				<div class="input">
-					<span>Entry Time</span><input type="time" id="start">
-				</div>
-				<div class="input">
-					<span>Exit Time</span> <input type="time" id="end">
-				</div>
-				<div class="input">
-					<span>Lunch Time</span><input type="number" id="lunch" style="padding-left:20px;">
-				</div>
-				<div class="input" align="center">
-					<input type="submit" onclick="submit()" value="Calculate">
-				</div>
-			</div>
-			<p id="print">
-				
-			</p>
 		</div>
-		
+		<div id="main-container" style="display: none;">
+			<div class="container">
+				<div class="heading">
+					<h1> Office Time Calculate</h1>
+				</div>
+				<div class="sub-container">
+					<div class="input">
+						<span>Entry Time</span><input type="time" id="start">
+					</div>
+					<div class="input">
+						<span>Exit Time</span> <input type="time" id="end">
+					</div>
+					<div class="input">
+						<span>Lunch Time</span><input type="number" id="lunch" style="padding-left:20px;">
+					</div>
+					<div class="input" align="center">
+						<input type="submit" onclick="submit()" value="Calculate">
+					</div>
+				</div>
+				<p id="print"></p>
+			</div>
+		</div>
 		<script>
-			function submit(){
+			function login() {
+				const username = document.getElementById("username").value;
+				const password = document.getElementById("password").value;
+
+				if (username === "admin" && password === "admin") {
+					document.getElementById("login-container").classList.remove("active");
+					document.getElementById("main-container").style.display = "block";
+				} else {
+					alert("Invalid credentials!");
+				}
+			}
+
+			function submit() {
 				var startTime = document.getElementById("start").value;
 				var endTime = document.getElementById("end").value;
 				var lunch = document.getElementById("lunch").value;
-				
+
 				startTime = new Date("1970-01-01T" + startTime + "Z");
 				endTime = new Date("1970-01-01T" + endTime + "Z");
-				
+
 				var timeDifference = endTime - startTime;
-				
 				var minutesDifference = Math.abs(Math.floor(timeDifference / (1000 * 60)));
-
 				var adjustedMinutes = minutesDifference - lunch;
-
 				var adjustedHours = Math.floor(adjustedMinutes / 60);
 				var adjustedRemainingMinutes = adjustedMinutes % 60;
-				
 				var output = "Total time spent in the office (" + adjustedHours + " hours and " + adjustedRemainingMinutes + " minutes)";
-				
 				document.getElementById("print").innerHTML = output;
 			}
 		</script>
